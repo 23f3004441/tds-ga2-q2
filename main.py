@@ -35,8 +35,8 @@ async def verify(request: Request):
             issuer=EXPECTED_ISSUER,
             options={"require": ["exp", "iss", "aud"]},
         )
-    except jwt.PyJWTError:
-        return JSONResponse(status_code=401, content={"valid": False})
+    except jwt.PyJWTError as e:
+        return JSONResponse(status_code=401, content={"valid": False, "debug_error": str(e), "debug_type": type(e).__name__})
 
     return {
         "valid": True,
